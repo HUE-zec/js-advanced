@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      class Shape {
+        getArea() {}
+      }
+
+      class Rectangle extends Shape {
+        constructor(width, height) {
+          super();
+          this.width = width;
+          this.height = height;
+        }
+
+        getArea() {
+          return this.width * this.height;
+        }
+      }
+
+      class Circle extends Shape {
+        constructor(radius) {
+          super();
+          this.radius = radius;
+        }
+
+        getArea() {
+          return this.radius * this.radius * 3.14;
+        }
+      }
+
+      let rec1 = new Rectangle(100, 200)
+      let rec2 = new Rectangle(300, 400)
+      let cir1 = new Circle(10)
+      let cir2 = new Circle(20)
+
+      // 这种表现形式就可以叫做多态
+      function getShapeArea(shape) { // 比如java中，这个shape一般要要约束类型为父类实例，那么其实例或子类实例都可以被传入
+        console.log(shape.getArea());
+      }
+
+      /*
+        js的多态：
+            多态：指为不同类型的实体提供统一的接口，或使用单一的符号来表示多个不同的类型
+
+            总结：不同的数据类型进行同一个操作，表现出不同的行为，就是多态的体现
+
+            在严格的面向对象的语言中，多态是存在如下条件的：
+                1.必须要有继承（实现接口）
+                2.必须要有父类引用指向子类对象
+      */
+
+      // js中有没有多态呢？从多态的定义出发可以说js中到处都是多态
+    </script>
+  </body>
+</html>

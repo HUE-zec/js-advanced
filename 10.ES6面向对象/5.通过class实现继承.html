@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      class Person {
+          constructor(name, age) {
+              this.name = name
+              this.age = age
+          }
+
+          running() {
+            console.log("running~");
+          }
+
+          static sleep() {
+            console.log("sleep");
+          }
+      }
+
+      class Student extends Person {
+        constructor(name, age, score) {
+          super(name, age) // super关键字调用父类构造器给子类初始化
+          this.score = score
+        }
+      }
+
+      let p1 = new Person("coder", 18)
+      let s1 = new Student("s1", 18, 100)
+
+      s1.running()
+      // s1为什么能调用Person类的方法，Person类的方法应该是在Person.prototype上的
+      console.log(s1.__proto__ == Student.prototype);
+      // 个人感觉实现继承的核心操作就在实现如下，子类的显式原型的隐式原型指向父类的显式原型
+      console.log(Student.prototype.__proto__ == Person.prototype); // true
+      console.log(s1.__proto__.__proto__ == Person.prototype);
+
+      Person.sleep()
+      // 子类同时也继承了父类的方法
+      Student.sleep()
+      // 子类的隐式原型为父类
+      console.log(Student.__proto__ == Person); // true
+      console.log(Person.__proto__ == Function.prototype); // true
+    </script>
+  </body>
+</html>

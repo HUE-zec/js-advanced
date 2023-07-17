@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // 原型式继承最开始是为了解决对象之间的继承
+    let obj1 = {
+      name: "coder"
+    }
+
+    let obj2 = {}
+    obj2.__proto__ = obj1
+    let obj3 = {}
+    obj3.__proto__ = obj1
+
+    /*
+      通过原型式继承实现上面每次都要__proto__的弊端
+    */
+    //  function createObject(o) {
+    //   function F()
+    //   F.prototype = 0
+    //   return new F()
+    //  }
+    //  let obj4 = createObject(obj1)
+    //  let obj5 = createObject(obj1)
+
+    // 但是其依旧有弊端，比如每个对象需要添加其特有的属性的时候，只能通过.的方式添加
+
+    function createObject (o) {
+      function F ()
+      F.prototype = o
+      return new F()
+    }
+
+    function createOtherObject(o, name, age, height, address) {
+      let newObj = createObject(o)
+      newObj.name = name
+      newObj.age = age
+      newObj.height = height
+      newObj.address = address
+
+      return newObj
+    }
+
+    /* 
+      不过这种方式还是有很多弊端的
+      寄生式继承是与原型式继承紧密相关的一种思想，并且同样由Douglas Crockford提出和推广
+      寄生式继承的思路是结合原型类继承和工厂函数的一种方式
+        即创建一个封装继承过程的函数，在该函数内部以某种方式来增强对象，最后再将这个对象返回
+    */
+
+  </script>
+</body>
+
+</html>

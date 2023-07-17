@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    /*
+    FinalizationRegistry提供了这样的一种方法：
+      在一个注册表中注册的对象被回收时，
+        请求在某个时间点上调用一个清理回调（清理回调有时被称为finalizer）
+          可以通过调用register方法，注册任何你想要回调清理的对象，传入该对象和所含的值
+    */
+
+    let obj1 = {
+      name: 'coder',
+    }
+    let obj2 = {
+      name: 'CODER'
+    }
+
+    const registry = new FinalizationRegistry((value) => {
+      console.log('某一个对象被回收了~', value)
+    })
+
+    // 可以给定义的回调传参数
+    registry.register(obj1, "obj1")
+    registry.register(obj2, "obj2")
+    obj = null
+  </script>
+
+</html>

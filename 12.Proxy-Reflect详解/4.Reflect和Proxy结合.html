@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    const obj = {
+      _name: 'coder',
+      age: 18,
+      set name (newValue) {
+        // 这里的this默认是obj自己，这样是无法监听到this._name = newValue中通过this._name将值给_name的过程
+        // 只需要在Reflect.set中传入第四个参数reciver即可，这里的this就会是objProxy
+        console.log('this:', this)
+        this._name = newValue
+      },
+    }
+
+    const objProxy = new Proxy(obj, {
+      set: function (target, key, newValue, receiver) {
+        // 下面这样其实并不规范，因为我们用Proxy就是不想直接操作原对象
+        // target[key] = newValue
+        // 好处一：如上
+
+        // 好处二：并且Reflect.set方法有返回值，可以直接判断本次操作是否成功
+
+        /*
+          好处三：receiver就是外层的Proxy对象，Reflect.set/get最后一个receiver参数可以决定原对象访问器getter和setter中的this      
+        */
+        console.log(`Proxy中设置的方法被调用了，设置了${key}:${newValue}`);
+        const isSuccess = Reflect.set(target, key, newValue, receiver)
+        if (!isSuccess) {
+          throw new Error(`set ${key} failure`)
+        }
+        console.log(receiver);
+      },
+      get: function () { },
+    })
+
+    objProxy.name = 'CODER'
+  </script>
+</body>
+
+</html>

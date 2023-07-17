@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    /*
+      原型式继承函数：
+        Douglas Crockford提出了在js中使用原型式继承（这种继承方法不是使用构造函数实现的）
+        为了理解这种方式，我们先回顾一下JS想实现继承的目的：重复利用另一个对象的属性和方法
+
+        之前实现继承的方式必须满足：
+          1.必须创建出一个对象
+          2.这个对象的隐式原型必须指向父类的显式原型
+          3.将这个对象赋值给子类的显式原型 
+          之前通过 let p = new Person() 满足上述条件
+    */
+
+    function Person() {}
+    function Student() {}
+
+    // 方案一：
+    // let obj = {}
+    // Object.setPrototypeof(obj, Person.prototype) // obj.__proto__ == Person.prototype
+    // Student.prototype = obj
+
+    // 方案二：
+    // function F()
+    // F.prototype = Person.prototype
+    // Student.prototype = new F()
+
+    // 方案三：
+    // let obj = Object.create(Person.prototype) // 创建一个新的对象 
+    // Student.prototype = obj
+
+    // 对方案三进行封装为一个工具函数即可
+    function inherit(Subtype, Supertype) {
+      // Object.create() 方法用于创建一个新对象，使用现有的对象来作为新创建对象的原型（prototype）。
+      Subtype.prototype = Object.create(Supertype.prototype)
+
+      // 不过最好给子类原型添加construcotr属性
+      Object.defineProperty(Subtype.prototype, "constructor", {
+        enumerable:false,
+        configurable:true,
+        wirtable:true,
+        value:Subtype
+      })
+    }
+    // 如果我们担心Object.create()有兼容性问题，可以自定义
+    // function createObject(o) {
+    //   function F() {}
+    //   F.prototype = 0
+    //   return new F()
+    // }
+
+    // 最终的目的：Student对象的原型指向了Person对象
+
+    inherit(Student, Person)
+  </script>
+</body>
+</html>

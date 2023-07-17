@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <button class="cancelBtn">点击取消
+
+  </button>
+  <script>
+    const xhr = new XMLHttpRequest()
+    xhr.onload = function () {
+      console.log(xhr.response);
+    }
+    xhr.responseType = "json"
+    // 如果超过3000毫秒还没有获取到相应的结果，那么就取消本次请求
+    // 如果设置为0，表示没有设置超时时间
+    // xhr.timeout = 3000
+    // 下面这个接口六秒后才会才会响应
+    xhr.open("get", "http://123.207.32.32:1888/01_basic/timeout")
+    xhr.send()
+
+    // 如何手动取消监听（比如通过按钮）
+    const cancelBtn = document.querySelector('.cancelBtn')
+    cancelBtn.onclick = function () {
+      xhr.abort()
+    }
+
+    /*
+      对于我们之前封装的promise版本的工具，该怎么做呢？
+        可以将XHR实例添加给promise实例，作为其属性
+    */
+  </script>
+</body>
+
+</html>

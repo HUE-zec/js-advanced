@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // 前面我们学习的then/catch/finally方法都属于Promise的实例方法，都是存放在Promise.prototype上的
+
+    // Promise类方法
+
+    Promise.resolve('coder') // 等价于 new Promise((resolve) => resolve("coder"))
+
+    const promise1 = Promise.resolve('coder')
+    promise1.then((res) => {
+      console.log(res)
+    })
+
+    /*
+resolve参数的形态：
+  情况一：普通的值或对象
+  情况二：Promise对象
+  情况三：thenable（含有then方法的对象）
+*/
+
+    // 等价于 new Promise((resolve, reject) => {reject("reject error")})
+    // Promise.reject("reject error") // 单独写一行在这里会报错，new Promise的时候也是一样的，因为rejected状态的Promise对象必须有catch方法接收
+    const promise2 = Promise.reject('err')
+    promise2.catch((reject) => console.log(reject))
+
+    // Promise.reject传入的参数无论是什么形态都会直接作为rejected状态的参数传递给catch方法
+
+    // all方法
+    /*
+其作用是将多个Promise包裹在一起形成一个新的Promise
+  新的Promise状态由包裹的所有Promise共同决定
+    1.当所有的Promise状态都变成了fulfilled时，
+      新的Promise状态为fulfilled，
+        并将所有Promise的resolve中传入的参数（决议结果，Promise的返回值）组成一个数组
+    2.当有一个Promise状态为rejected时，
+      新的Promise变成rejected，
+        并且会将第一个reject的返回值作为参数，然后需要有catch方法来接收
+*/
+    const promise3 = new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve('111')
+      }, 1000)
+    })
+    const promise4 = new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve('222')
+      }, 2000)
+    })
+    const promise5 = new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve('333')
+      }, 3000)
+    })
+
+    Promise.all([promise3, promise4, promise5]).then((res) => {
+      console.log(res)
+    })
+
+    /*
+      all类方法是有缺陷的，比如有一个Promise变为rejected，那么对于fulfilled和pending状态的Promise，我们就拿不到结果了
+        ES11新增了新的allSettled方法，
+          其会在所有Promise都有结果时（fulfilled或rejected），
+            才会有最终状态
+              并且这个新的Promise的状态一定是fulfilled的
+
+      其会返回一个数组，数组中的每个对象记录每个Promise的状态，决议的值或者拒绝的理由（value/reason）
+    */
+    const promise6 = new Promise((resolve, reject) => {
+      setTimeout(() => {
+        reject('111')
+      }, 1000)
+    })
+    const promise7 = new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve('222')
+      }, 2000)
+    })
+    const promise8 = new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve('333')
+      }, 3000)
+    })
+
+    Promise.allSettled([promise6, promise7, promise8]).then((res) => {
+      console.log(res)
+    })
+
+
+    // Promise.race()
+    // 如果一个Promise有了结果（不考虑对错），我们就希望决定最新Promise的状态，那么就可以使用race方法
+    Promise.race([promise6, promise7, promise8]).then(res => {
+      console.log(res);
+    }).catch(err => {
+      console.log(err);
+    }) // 111
+
+    // Promise.any()
+    // 和Promise.race()类似，不过其会等到一个Promise的状态为fulfilled，才会决定新的Promise的状态
+    // 如果所有Promise都是rejected，那么也会等到所有Promise都变成rejected状态
+    Promise.any([promise6, promise7, promise8]).then(res => {
+      console.log(res);
+    }) // 222
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <a href="./2.verification.html" target="_blank">跳转</a>
+
+  <script>
+    /*
+      在Application中显示的位置不同
+      1.关闭网页后重新打开，localStorage会保留，sessionStorage不会保留
+      2.在页面内实现跳转（还在同一个会话中），localStorage会保留，sessionStorage也会保留
+      3.在页面外实现跳转，localStorage会保留，sessionStorage不会保留
+    */
+
+    // 设置后再注释（否则重新打开网页后又会执行下面的代码，无法验证）
+    localStorage.setItem("name", "localStorage")
+    sessionStorage.setItem("name", "sessionStorage")
+  </script>
+</body>
+
+</html>

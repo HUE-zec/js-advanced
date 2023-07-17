@@ -1,0 +1,22 @@
+function foo() {}
+内部其实有Function和Object两个构造函数
+
+
+构造函数有自己的隐式原型（.__proto__查看）和显式原型（自带prototype属性）
+普通对象只有隐式原型（.__proto__查看）
+
+构造函数（function Ojbect，function Function，function Foo）内部是由new Function()创建而来的（new 构造函数会把构造函数的显示原型赋值给对象的隐式原型）
+因此构造函数的隐式原型（__proto__）是Function的显式原型
+构造函数的显式原型（prototype）就是对应构造函数的显示原型
+
+一个对象（包括函数、构造函数的显式原型）的隐式原型看其是怎么new出来的，隐式原型就是对应的构造函数的显示原型
+构造函数的显示原型也是一个普通对象，其隐式原型就是Object的显式原型（Object.prototype）
+
+Object.prototype.__proto__为null
+
+
+
+子类的隐式原型是父类（不过这里的寄生组合式还没实现的，实现这个可以让子类继承父类的类方法，实现 子类.__proto__ = 父类 即可）
+
+
+

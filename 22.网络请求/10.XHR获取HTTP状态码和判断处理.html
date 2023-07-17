@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    /*
+      XMLHttpRequest的state是用于记录xhr对象本身的状态变化的，并非针对HTTP请求的网络请求状态
+        如果我们希望获取HTTP的请求状态，可以通过status和statusText来获取
+    */
+    const xhr = new XMLHttpRequest()
+    // 请求成功或者失败都会执行
+    xhr.onload = function () {
+      // 根据HTTP状态码来判断请求是否成功
+      if (xhr.status >= 200 && xhr.status < 300) {
+        console.log(xhr.response, xhr.statusText);
+      } else {
+        console.log(xhr.status, xhr.statusText);
+      }
+    }
+    xhr.open("get", "http://123.207.32.32:8000/home/multidata")
+    xhr.send()
+
+    /*
+      其实一般开发中都不需要自己配置这些，一般会使用网络请求的框架
+        目前流行axios等框架
+    */
+  </script>
+</body>
+
+</html>

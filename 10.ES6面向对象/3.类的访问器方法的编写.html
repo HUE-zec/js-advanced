@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 如果想创建出来一系列对象，每个对象的属性都被监听
+        class Person {
+             constructor(name, age) {
+                // _name代表私有属性，不要在外界进行访问（只是一种规范），ES13中增加了#代表私有属性，外界访问会报错
+                this._name = name
+                this.age = age 
+             }
+
+             set name(value) {
+                this._name = name
+                console.log("设置_name");
+             }
+             get name() {
+                return this._name
+                console.log("设置_name");
+             }
+        }
+
+        let p = new Person("coder", 18)
+        // 通过访问器设置_name的值
+        p1.name = "CODER"
+        console.log();
+
+        // 应用场景，如：
+        class Rectangle {
+            constructor(x, y, width, height) {
+                this.x = x
+                this.y = y
+                this.width = width
+                this.height = height
+            }
+
+            get position() {
+                return {x: this.x, y: this.y}
+            }
+
+            get  size() {
+                return {width:this.width, height: this.height}
+            }
+        }
+        
+        let rec1 = new Rectangle(10, 20, 100, 200)
+        // 访问器直接像调用普通属性一样调用就行，也不用像方法一样调用
+        console.log(rec1.positon); 
+        console.log(rec1.size);
+    </script>
+</body>
+</html>

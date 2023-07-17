@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <button class="nav-btn">点击按钮</button>
+
+  <script>
+    class EventBus {
+      constructor() {
+        this.eventMap = {}
+      }
+
+      /*
+        eventMap = {
+          eventName1: [
+            fn1,
+            fn2,
+            fn3,
+            fn4,
+    
+            ...
+          ] 
+        }
+      */
+
+      on (eventName, eventFn) {
+        let eventFns = this.eventMap[eventName] // 一个事件对应的回调函数们
+        // 对每个事件最开始的on方法做特判，刚开始是取不到对应的eventMap[eventName]的
+        if (!eventFns) {
+          eventFns = []
+          this.eventMap[eventName] = eventFns
+        }
+        eventFns.push(eventFn)
+      }
+
+      off (eventName, eventFn) {
+        let eventFns = this.eventMap[eventName]
+        if (!eventFns) {
+          return;
+        }
+        for (let i = 0; i < eventFns.length; i ++) {
+          const fn = eventFns[i]
+          if (fn === eventFn) {
+            eventFns.splice(i, 1)
+            break
+          }
+        }
+
+        if (eventBus.length === 0) {
+          delete this.eventMap[eventName]
+        }
+      }
+
+      emit (eventName, ...args) {
+        let eventFns = this.eventMap[eventName]
+        if (!eventFns) return;
+        eventFns.forEach(fn => {
+          fn(...args)
+        })
+      }
+    }
+
+    const eventBus = new EventBus()
+
+    eventBus.on("navclick", (name, age, height) => {
+      console.log(1, name, age, height);
+    })
+    eventBus.on("navclick", () => {
+      console.log(2);
+    })
+
+    const navclick = () => console.log(3);
+    eventBus.on("navclick", navclick)
+
+    setTimeout(() => {
+      eventBus.off("navclick", navclick)
+    }, 1000)
+
+    const navBtnClick = document.querySelector(".nav-btn")
+    navBtnClick.onclick = function() {
+      console.log("监听自己");
+      eventBus.emit("navclick", "coder", 18, 1.88)
+    }
+  </script>
+</body>
+
+</html>

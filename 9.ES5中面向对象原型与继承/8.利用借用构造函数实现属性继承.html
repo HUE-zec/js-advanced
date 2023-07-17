@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    function Person(name, age, height, address) {
+      this.name = name
+      this.age = age
+      this.height = height
+      this.address = address
+    }
+
+    Person.prototype.running = function() {
+      console.log("running");
+    }
+    Person.prototype.eating = function() {
+      console.log("eating");
+    }
+
+    
+    // 定义学生类
+    function Student(name, age, height, address, sno, score) {
+      // 重点：借用构造函数
+      Person.call(this, name, age, height, address)
+      // 借用Person构造函数的逻辑实现对Student对象属性的定制化（即能够实现继承属性，并且新建对象的时候可以自定义属性值并且不会造成代码的重复）
+      // 上面相当于就是在对let stu1 = new Student()创建的对象执行Person中的如下代码，this指向stu1，就是在给stu1本身绑定属性
+      // this.name = name
+      // this.age = age
+      // this.height = height
+      // this.address = address
+
+      /*
+        上面利用借用构造函数实现继承的方法非常巧妙
+          借用继承的作法非常简单，在子类型构造函数的内部调用父类型构造函数
+            因为函数可以在任意的时刻被调用
+              因此通过apply()和call()也可以在新创建的对象上执行构造函数
+      */
+
+      this.sno = sno
+      this.score = score
+    }
+    
+    let p = new Person("why", 18)
+    Student.prototype = p
+
+    Student.prototype.studying = function() {
+      console.log("studying");
+    }
+
+    let stu1 = new Student("coder", 18, 111, 100)
+    
+    console.log(stu1);
+    console.log(stu1.name);
+    console.log(stu1.age);
+    stu1.running()
+    stu1.studying()
+
+  </script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+        // 封装为一个独立的函数，也可以封装到函数显式原型上（这样通过this调用execFn还可以少传一个参数）
+      function execFn(thisArg, otherArgs, fn) {
+        thisArg = (thisArg === null || thisArg === undefined) ? window : Object(thisArg);
+
+        Object.defineProperty(thisArg, "fn", {
+          configurable: true,
+          enumerable: false,
+          value: fn,
+        });
+
+        thisArg.fn(...otherArgs);
+
+        delete thisArg.fn;
+      }
+
+      Function.prototype.diyApply = function(thisArg, otherArgs) {
+        execFn(thisArg, otherArgs, this)
+      }
+
+      Function.prototype.diyCall = function(thisArg, ...otherArgs) {
+        execFn(thisArg, otherArgs, this)
+      }
+
+      function foo(name, age) {
+        console.log(this, name, age);
+      }
+
+      let obj = {
+        address: "中国"
+      }
+
+      foo.diyApply(obj, ["coder", 18])
+      
+    </script>
+  </body>
+</html>

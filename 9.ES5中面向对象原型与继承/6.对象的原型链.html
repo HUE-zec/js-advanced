@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    // 我们之前说过 let obj = {} 就是相当于 let obj = new Object，自然obj的隐式原型肯定是等于Object的显示原型的
+    let obj = {}
+    console.log(obj.__proto__ === Object.prototype);
+
+    // Object的原型对象的原型对象是指向null的
+
+    
+    console.log(obj.message); // undefined
+    /*
+      上面的查找顺序是什么样的呢？
+        1.现在obj自身找
+        2.再去obj的隐式原型（obj.__proto__）里面找（也就是Object的显式原型对象）
+        3.再去obj的隐式原型的原型（已经指向null了，null是尽头了）中找，在null中查找会返回undefined
+
+      所以如果我们想要实现继承，（比如Student类和Teacher类都有一个相同功能的函数）就需要把共同的东西放到顶层的原型链
+    */
+
+    // 我们还可以自定义原型链（虽然通常不建议这样修改）
+    obj.__proto__ = {}
+    obj.__proto__.__proto__ = {}
+    obj.__proto__.__proto__ = {message: "coder"}
+
+    console.log(obj.message); // coder
+
+    // 另外obj.__proto__.__proto__.__proto__其为一个普通对象，因此其原型又会是Object.prototype，Object.prototype.__proto__又会是null
+
+
+    /* 
+      总之就是在对象中查找某个属性时，如果其在自身中找不到，就会去它的原型上去寻找，这就是对象上隐式原型的主要作用
+      显式原型主要是在函数上面，
+        当我们把一个函数对象当成构造函数通过new操作时，
+          其会创建一个新的对象，并把该函数的显式原型赋值给该对象的隐式原型，
+            那么赋值之后，就可以保证通过这个构造函数创建出来的对象，
+              都是有相同的隐式原型的
+      对象会顺着原型链一层一层查找属性
+    */
+  </script>
+</body>
+</html>

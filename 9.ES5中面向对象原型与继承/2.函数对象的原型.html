@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    let obj = {}
+function foo() {}
+
+// 当把函数看成一个普通对象的时候，它是具备__proto__的（隐式原型）
+// 作用：查找key对应的value的时候，如果自身没有，会去原型上找
+console.log(foo.__proto__)
+
+// 当把函数看成一个函数时，它是具备prototype的
+// .prototype作用：用来构建对象的时候，给对象设置隐式原型
+console.log(foo.prototype)
+
+// 所有函数都有一个prototype属性（可以说是显式原型）（并非__proto__），而普通对象是没有的
+
+/* 
+  我们再来回忆一下之前的 new 构造函数创建对象的内部操作
+  比如 new Foo()
+    1.创建一个新的空对象
+      比如let obj = {}
+    2.将这个空对象赋值给this
+      this = obj
+    这里其实还有一步之前没说
+    3.会将函数的显式原型赋值给对象的隐式原型
+      obj.__proto__ = Person.prototype
+    4.执行函数体中的代码
+    5.将这个对象默认返回
+
+    那么也就是说比如我们通过Person构造函数创建出来的所有对象的[[prototype]]都指向的是Person.prototype
+    
+    */
+/*
+    函数的原型有什么用？
+      当通过同一个构造函数创建出来的对象拥有一个共同值的时候
+        我们可以将这个共同的属性放到构造函数的显示原型上，这样通过这个构造函数创建出来的每一个对象，都可以使用这些属性
+          如果我们是在构造函数中通过this加这个相同的属性，那么每次新建对象的时候，都会创建一次属性，会浪费空间
+  */
+function Student(name) {
+  this.name = name
+
+  Student.prototype.sayHello = function () {
+    console.log('hello' + this.name)
+  }
+}
+let stu1 = new Student("stu1")
+let stu2 = new Student("stu2")
+console.log(stu1);
+
+console.log(stu2);
+// 可以发现打印stu1和stu2并不存在sayHello()方法，但是stu1和stu2却可以调用，因为自身找不到的时候，其还会去原型里找
+stu1.sayHello()
+stu2.sayHello()
+
+console.log(stu1.__proto__ === Student.prototype); // true
+console.log(stu2.__proto__ === Student.prototype); // true
+console.log(stu1.__proto__ === stu2.__proto__); // true
+console.log(stu1.prototype); // undefined，只有函数可以通过.prototype属性取到原型
+  </script>
+</body>
+</html>

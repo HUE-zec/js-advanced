@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 让我们回顾一些之前的知识，函数实例为什么能调用一些方法？因为其隐式原型等于Function.prototype，一些内部方法都在这上面
+        // 比如我们想拿到数组的slice方法是怎么做的？
+        Array.prototype.slice();
+        [].slice() // []是一个Array实例，其 __proto__ 等于 Array.prototype，这些方法在Array.prototype上，所以可以通过对应的数组实例拿到
+        // console.log([].__proto__ == Array.prototype); // true
+
+        // 那么如何给函数对象添加对象方法呢？那么在Function.prototype上添加即可
+        
+        function foo(name, age) {
+            console.log(this, name, age);
+        }
+        
+        // 手写apply
+        Function.prototype.diyApply = function(thisArg, otherArgs) {
+            // this() // 因为foo.diyApply()，所以此时diyApply中的this -> foo，那么this()就是foo()，默认函数调用，foo中的this就是全局对象
+
+            // 判断thisArg是否为对象
+            thisArg = (thisArg == undefined || thisArg == null) ? window : Object(thisArg)
+            
+            // 这里拿到的this是调用diyApply的函数
+            // thisArg.fn = this
+            Object.defineProperty(thisArg, "fn", {
+                configurable: true,
+                enumerable: false,
+                value: this
+            })
+            // 我们要通过隐式绑定使thisArg绑定给调用diyApply的对象
+            thisArg.fn(...otherArgs) // 调用diyApply的函数(fn的值为diyApply当前的this，为调用diyAllpy的函数）的this此时为thisArg，实现了this的绑定
+            // 不过我们应该要确保传进来的thisArg是一些基本类型的话怎么办呢？（比如123，"123"，undefined，null）
+
+            delete thisArg.fn
+        }
+        
+        // 手写call
+        Function.prototype.diyCall = function(thisArg, ...otherArgs) {
+            thisArg = (thisArg == null || thisArg == undefined) ? window : Object(thisArg)
+
+            Object.defineProperty(thisArg, "fn", {
+                configurable: true,
+                enumerable: false,
+                value: this
+            })
+
+            thisArg.fn(...otherArgs)
+
+            delete thisArg.fn
+        }
+
+
+
+    </script>
+</body>
+</html>

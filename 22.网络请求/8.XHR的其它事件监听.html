@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    const xhr = new XMLHttpRequest()
+    xhr.onload = () => console.log("onload");
+    xhr.open("get", "http://123.207.32.32:8000/home/multidata")
+    /*
+      除了之前的onreadystatechange，XMLHttpRequst还有其它事件可以监听
+        loadstart 请求开始
+        progress 一个响应数据包到达，此时整个response body都在response中
+          比如文件上传或者大文件下载的时候可能就会用到这个
+        abort 调用xhr.abort取消请求
+        error 发生连接错误，例如，域错误，不会发生诸如404这类的HTTP错误
+        load 请求成功完成
+        timeout 由于请求超时而取消了该请求（进发生在设置了timeout的情况下）
+          默认的超时时间是0
+        loadend 在load,error,timeout或abort之后触发
+        onload监听事件加载完成
+    */
+  </script>
+</body>
+</html>

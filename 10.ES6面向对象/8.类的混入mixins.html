@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 了解即可，开发中一般也不会这样做，不过react中一些高阶组件可能类似如下做法
+        // 因为js的继承只支持单继承，那么如何实现多继承呢？让Bird继承Animal和Runner
+
+        function mixinAnimal(BaseClass) {
+            return class extends BaseClass {
+                eating() {
+                    console.log("eating");
+                }
+            }
+        }
+
+        function mixinRunner(BaseClass) {
+            return class extends BaseClass {
+                running() {
+                    console.log("running");
+                }             
+            }
+        }
+
+        class Bird {
+            flying() {
+                console.log("flying");
+            }
+        }
+
+        // let bird = new (mixinRunner(mixinAnimal(Bird)))()
+
+        bird.eating()
+        bird.running()
+        bird.flying()
+        
+        // 也有其他的一些混入实现的方法，比如通过Object.assign将类的prototype合并
+    </script>
+</body>
+</html>

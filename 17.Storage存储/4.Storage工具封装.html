@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script src="./cache.js"></script>
+  <script>
+    /*
+      我们对其进行一个工具的封装，可以提升代码的复用性和开发效率以及扩展功能
+        比如，Storage中的value只能是基本数据类型，而不能是对象
+        那我们可以通过工具封装，让其内部通过JSON.stringify(value)，完成对象的序列化（解析为字符串），存储至localStorage中
+        并且在取的时候让其内部通过JSON.parse()将字符串解析为对象返回
+        这样我们多次进行存储的时候，就不需要每次手动考虑是否为对象以及每次自己手动去写JSON.stringify和JSON.parse
+        这样也就达到了一个扩展功能，提供代码复用性和提高开发效率的作用
+    */
+
+    const userInfo = {
+      name: "coder",
+      level: 100
+    }
+    localCache.setCache("userInfo", userInfo)
+    console.log(localCache.getCache("userInfo"))
+  </script>
+</body>
+
+</html>

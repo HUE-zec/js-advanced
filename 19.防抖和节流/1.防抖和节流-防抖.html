@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <input type="text">
+
+  <button>按钮</button>
+  <script>
+    /*
+      防抖和节流最早并不是出现在软件工程中的，防抖是出现在电子元器件中，节流出现在流体流动中
+        而JS是事件驱动的，大量的操作会触发事件，加入到事件队列中进行处理
+          而对于某些频繁的事件处理，我们可以通过防抖和节流限制事件频繁的发生
+            防抖和节流函数在前端实际开发中两个非常重要的函数，也是面试经常会被问到的问题
+            
+        通过underscor或者lodash库实现防抖
+          下载，本地引入/通过CDN/通过npm安装
+    */
+
+    const inputE1 = document.querySelector("input")
+    let counter = 1
+    // 模拟发送网络请求
+    inputE1.oninput = function () {
+      // 每次操作input的时候，都会发送网络请求，也就是意味着用户在快速输入的时候，会和服务器频繁做交互，而这样肯定是非常消耗服务器的，服务器压力会非常大，我们肯定是希望发送请求时有间隔的（如果用户过多少毫秒后还没有输入，我们就认为用户输入完毕，然后再向服务器发送请求）
+      // 如果对于上述这种频繁的操作做类似上面这样的优化，这种优化的方式就叫做防抖操作（在发生事件的时候延迟一段时间再向服务器发送请求，如果这期间又发生了相应的事件，再重新计时并且要把之前的事件取消掉，直到这段时间没有再次发生事件，才向服务器发送请求）
+      console.log(`发送网络请求${counter++}`, this.value);
+
+
+    }
+
+    const btnE1 = document.querySelector("button")
+    btnE1.onClick = function () {
+      console.log(`发送网络请求`, this);
+    }
+
+    /*
+      理解一下防抖的过程：
+        当事件触发时，相应的函数不会立即触发，而是会等待一定的时间
+          当事件密集触发时，函数的触发也会被频繁地推迟
+            只有等待一定时间没有事件触发后，函数才会执行
+              （也就是说在某个时间内没有再次触发这个函数才会执行这个函数）
+
+      防抖的应用场景很多：
+        输入框中频繁地输入内容/搜索/提交信息
+        频繁的点击按钮，触发某个事件
+        监听浏览器的滚动信息完成某些特定操作
+        用户缩放浏览器的resize事件
+    */
+
+  </script>
+</body>
+
+</html>

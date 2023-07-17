@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <input type="text" name="" id="">
+  <button class="cancel">取消请求</button>
+
+  <script src="./2.debounce.js"></script>
+  <script>
+
+    const inputE1 = document.querySelector("input")
+    let counter = 1
+    const debounceFn = debounce(function (event) {
+        console.log(`发送网络请求，${counter++}`, this.value, event);
+      }, 2000, true)
+
+    inputE1.oninput = debounceFn
+
+    const btnE1 = document.querySelector("button")
+    // 点击后将本来要发生的事件取消掉（不是防抖操作，是用户在输入时又不想给服务器发送请求了，但是该次事件触发的函数在等待时间后肯定是会继续执行的）
+    btnE1.onclick = function () {
+      debounceFn.cancel()
+    }
+
+  </script>
+</body>
+
+</html>

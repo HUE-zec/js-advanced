@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    const xhr = new XMLHttpRequest()
+    xhr.onload = function () {
+      console.log(xhr.response);
+      console.log(typeof xhr.response) // string，如果将xhr.responseType="json"后，拿到的就是object
+
+      /*
+        可是我们在请求的响应头中可以看到Content-Type:application/json
+          也就是说服务器返回的是json格式的数据，为什么通过xhr.repsonse去取拿到的是字符串呢？
+            因为xhr.responseType默认是""（一个空字符串），""在这里也就是代表"text"，因此此时xhr.repsonse拿到的数据是字符串类型
+              也就是说设置xhr.responseType()可以告知xhr获取到的数据类型
+                如果设置了xhr.responseType()="json"，那么就可以直接获取到json格式的文件
+                  如果服务器返回的是文本数据，但是我们通过json格式去读，只能获取到null，不过有专门的.responseText获取文本数据 
+                    如果返回的是XML，也可以通过专门的.responseXML拿到数据
+                      现在的服务器返回的基本都是json数据，直接设置为json即可
+      */
+    }
+    xhr.responseType = "json" // 默认是""，代表的是"text"
+    xhr.open("get", "http://123.207.32.32:8000/home/multidata")
+    xhr.send()
+  </script>
+</body>
+
+</html>

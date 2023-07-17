@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      console.log('面试题一：')
+      var name = 'window-person'
+      var person = {
+        name: 'person',
+        sayName() {
+          console.log(this.name)
+        },
+      }
+      function sayName() {
+        var sss = person.sayName
+        sss() // window-person
+        person.sayName() // person
+        ;(person.sayName)() // person
+        ;(b = person.sayName)() // 间接函数引用，全局 window-person
+      }
+      sayName()
+
+      console.log('面试题二')
+      var person1 = {
+        name: 'person1',
+        foo1: function() {
+          console.log(this.name);
+        },
+        foo2:() => console.log(this.name),
+        foo3:function() {
+          return function() {
+            console.log(this.name);
+          }
+
+        },
+        foo4:function() {
+          return () => console.log(this.name);
+        }
+      }
+      var person2 = {name:'person2'}
+
+      person1.foo1(); // person1
+      person1.foo1.call(person2); // person2
+
+      person1.foo2(); // window-person
+      person1.foo2.call(person2); // window-person
+
+      person1.foo3()();  // person1(×)，window-person(√)
+      person1.foo3.call(person2)(); // person2(×)，window-person(√)
+      person1.foo3().call(person2); // person2
+
+      person1.foo4()(); // person1（foo4隐式绑定了person1，foo4返回的箭头函数会去foo4（上层作用域）里面去找this
+      person1.foo4.call(person2)(); // person2
+      person1.foo4().call(person2); // person1
+
+      console.log("面试题三")
+      function Person(name) {
+        this.name = name
+        this.foo1 = function() {
+          console.log(this.name);
+        }
+        this.foo2 = () => console.log(this.name);
+        this.foo3 = function() {
+          return function() {
+            console.log(this.name);
+          }
+        }
+        this.foo4 = function() {
+          return () => console.log(this.name);
+        }
+      }
+      var person3 = new Person('person3')
+      var person4 = new Person('person4')
+
+      person3.foo1() // person3
+      person3.foo1.call(person4) // person4
+
+      person3.foo2() // window-person（×），person3，会去Person里找
+      person3.foo2.call(person4) // window-person（×），person3
+
+      person3.foo3()() // window-person
+      person3.foo3.call(person4)() // window-person
+      person3.foo3().call(person4) // person4
+
+      person3.foo4()() // person3
+      person3.foo4.call(person4)() // person4
+      person3.foo4().call(person4) // person3
+
+      console.log('面试题四');
+      function Person2(name) {
+        this.name = name
+        this.obj = {
+          name:'obj',
+          foo1:function() {
+            return function() {
+              console.log(this.name);
+            }
+          },
+          foo2:function() {
+            return () => console.log(this.name);
+          }
+        }
+      }
+      var person1 = new Person2('person1')
+      var person2 = new Person2('person2')
+
+      person1.obj.foo1()() // window-person
+      person1.obj.foo1.call(person2)() // window-person
+      person1.obj.foo1().call(person2) // person2
+
+      person1.obj.foo2()() // obj
+      person1.obj.foo2.call(person2)() // person2
+      person1.obj.foo2().call(person2) // obj
+
+    </script>
+  </body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 利用访问器方法可以监听对象的值什么时候被访问以及设置
+
+        // 方式一：通过存取描述属性符（更常用）
+        // let obj = {
+        //     _name: "coder"
+        // }
+        // Object.defineProperty(obj, "name", {
+        //     configurable:true,
+        //     enumerable:true,
+        //     set: function() {
+
+        //     },
+        //     get: function() {
+
+        //     }
+        // })
+
+        // 方式二：直接在对象中定义
+        let obj = {
+            _name: "coder", // _代表私有属性
+            set name(value) {
+                this._name = value
+            },
+            get name() {
+                return this._name
+            }
+        }
+    </script>
+</body>
+</html>

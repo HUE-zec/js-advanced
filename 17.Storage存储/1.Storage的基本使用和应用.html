@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    /*
+      WebStorage主要提供了一些机制，可以让浏览器提供一种更直观的key-value存储方式
+        localStorage：本地存储，提供的是一种永久的存储方式，在关闭网页重新打开的过程中，存储的内容依旧会保存
+        sessionStorage：会话存储，存储的是本次会话的存储，在关闭掉会话后，存储的内容会被清除
+
+        平常写死的内容就只是存储在内存中，
+          关闭浏览器就没有了，
+            比如我们想要拿到服务器的token，
+              并且在下次发送请求的时候，将其发送给服务器，
+                那么我们一定是需要在拿到token后将token保存到本地的
+                  那么我们就可以将token保存到storage中
+                    可以在f12 Application中看到Storage相关信息
+    */
+
+    let token = localStorage.getItem("token")
+    if (!token) {
+      token = "coder" // 从服务器中获取
+      localStorage.setItem("token", token)
+    }
+    console.log(token);
+
+    let username = localStorage.getItem("username")
+    let password = localStorage.getItem("password")
+    // 执行下面的代码再注释掉，相关信息依旧可以获取
+    if (!username || !password) {
+      console.log("请用户输入账号和密码");
+      username = "coder"
+      password = "123456"
+      localStorage.setItem("username", username)
+      localStorage.setItem("password", password)
+    }
+
+    console.log(username, password);
+  </script>
+</body>
+
+</html>

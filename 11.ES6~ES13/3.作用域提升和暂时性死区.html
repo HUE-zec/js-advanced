@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /*
+            我们知道var声明的标识符是有作用域提升的
+            那么，let和const声明的标识符呢？
+                在执行上下文的词法环境被创建出来的时候，let/const声明的变量已经被创建了，只是不能被提前访问
+                    那么这算是一种作用域的提升吗？
+                        作用域提升的简单解释就是在声明变量的作用域中，如果这个变量可以在声明之前被访问，那么这种现象可以称为作用域提升
+                            因此let/const声明的变量虽然已经在词法环境中了，但是由于不能被访问，因为不算作用域提升
+        */
+
+        // 暂时性死区（TDZ）
+        let message = "hello"
+        function foo() {
+            console.log(message);
+            // foo()作用域中，或者说是其词法环境中（环境记录）已经有message了（因此不会去外面找），但是不能被访问，会报错
+            let message = "Hello"
+        }
+        foo()
+
+        // 暂时性死区和定义的位置没有关系，和代码的执行顺序有关系
+        function baz() {
+            console.log(name);
+        }
+        name = "coder"
+        baz() // 不会报错
+    </script>
+</body>
+</html>

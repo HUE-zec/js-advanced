@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // 不过当前推荐直接使用axios
+
+    // 如果每次发送网络请求的时候都得写一大串代码，每个步骤都要做一遍，因此我们可以自己封装一个工具
+    function diyAjax ({
+      url,
+      method = "get", // 等于method: 
+      data, 
+      timeout = 10000,
+      headers = { }, // 比如说会把token放这里面
+      success,
+      failure } = {},
+    ) { // 解构
+      const xhr = new XMLHttpRequest()
+
+      xhr.onload = function () {
+        if (xhr.status >= 200 && xhr.status < 300) {
+          success && success(xhr.response)
+        } else {
+          failure && failure({ status: xhr.status, message: xhr.statusText })
+        }
+      }
+
+      xhr.responseType = "json"
+
+      // 对于get请求，只需要将数据拼接到查询字符串当中的
+      if (method.toLowerCase() === "get") {
+        const queryStrings = []
+        for (const key in data) {
+          queryStrings.push(`${key}=${data[key]}`)
+        }
+        url = url + '?' + queryStrings.join("&")
+
+        xhr.open(method, url)
+        xhr.send()
+      } else {
+        xhr.open(method, url)
+        xhr.setRequestHeader("Content-type", "application/json")
+        xhr.send(JSON.stringify(data))
+      }
+
+
+      xhr.open(method, url)
+      xhr.send()
+    }
+
+    diyAjax({
+      url: "http://123.207.32.32:8000/home/multidata",
+      // 不过get请求一般不推荐这样做
+      data: {
+        name: "coder",
+        age: 18
+      },
+      success: function (res) {
+        console.log("res", res);
+      },
+      failure: function (err) {
+        alert(err.message)
+      }
+    })
+
+    // diyAjax({
+    //   url: "http://123.207.32.32:8000/02_param/multidata",
+    //   method: "post",
+    //   data: {
+    //     name: "coder",
+    //     age: 18
+    //   },
+    //   success: function (res) {
+    //     console.log("res", res);
+    //   },
+    //   failure: function (err) {
+    //     alert(err.message)
+    //   }
+    // })
+  </script>
+</body>
+
+</html>

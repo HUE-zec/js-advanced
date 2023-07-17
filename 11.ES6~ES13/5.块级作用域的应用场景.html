@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+
+<body>
+    <button>按钮1</button>
+    <button>按钮2</button>
+    <button>按钮3</button>
+    <button>按钮4</button>
+
+    <script>
+        // 监听按钮的点击
+        const btnEls = document.querySelectorAll("button")
+        // for (var i = 0; i < btnEls.length; i ++) {
+        //     var btnEl = btnEls[i];
+            /* 
+                如下是无法实现的，因为这里创建了四个函数，
+                    由于是var，这里没有形成块级作用域，
+                        外层作用域是全局，而经过for循环，全局中的i已经变成了4，
+                            不管哪个函数打印都是4
+            */
+            // btnEl.onclick = function() {
+            //     console.log(`点击了第${i}个`);
+            // }
+
+            /*
+                每次创建一个立即执行函数，其会形成自己的作用域
+                    每次的btnEl.onclick 函数对应的outer词法环境（也是通过[[scope]]赋值过去的）都是一个新的立即执行函数
+                        每次新的立即执行函数的词法环境中都会保存对应的i
+                            其实也可以说每个btnEl.onclick这个函数已经通过闭包的形式把外层立即执行函数作用域中的对象（类似ES5说的AO）存下来了
+                                然后就可以在每次的btnEl.onclick执行的时候，访问到外层作用域对应的i
+
+            */
+            // (function(m) {
+            //     btnEl.onclick = function() {
+            //         console.log(`点击了第${m}个`);
+            //     }
+            // })(i);
+        // }
+
+
+        /*
+            这个let相当于是在块里面定义的，也就是说这里会形成块级作用域，形成一个自己的词法环境
+                然后执行四次，每次形成自己的词法环境，也就是有四个不同的词法环境
+                    每个词法环境中有自己的环境记录，保存每次的i
+                        然后每个btnEl.onclick函数的[[scope]]会引用对应的词法环境
+                            比如，第一次的btnEl.onclick函数的[[scope]]会引用第一次块级作用域的词法环境
+                                其实也是每次形成了自己的闭包
+        */
+        for (let i = 0; i < btnEls.length; i ++) {
+            var btnEl = btnEls[i];
+            btnEl.onclick = function() {
+                console.log(`点击了第${i}个`);
+            }
+        }
+
+
+        // 以后别再用var声明变量
+    </script>
+</body>
+
+</html>

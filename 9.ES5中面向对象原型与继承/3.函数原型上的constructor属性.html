@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    function Person() {}
+    
+    // 我们在浏览器的控制台可以发现，Person函数的原型上还有一个constructor属性，我们对其来做一个探讨
+    console.log(Person.prototype);
+    console.log(Person.prototype.constructor);
+    // 函数原型上的constructor又会指向函数
+    console.log(Person.prototype.constructor === Person); // true
+    console.log(Person.prototype.constructor.name === Person.name); // true
+
+    let person = new Person()
+    // 因此下面也都是可以的，因为person.__proto__ == Person.prototype
+    console.log(person.__proto__.constructor == Person); // true
+    
+  </script>
+</body>
+</html>

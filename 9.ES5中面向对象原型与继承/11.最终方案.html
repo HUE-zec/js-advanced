@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script src="./inherit_utils.js"></script>
+  <script>
+        function Person(name, age, height, address) {
+      this.name = name
+      this.age = age
+      this.height = height
+      this.address = address
+    }
+
+    Person.prototype.running = function() {
+      console.log("running");
+    }
+    Person.prototype.eating = function() {
+      console.log("eating");
+    }
+
+    // 定义学生类
+    function Student(name, age, height, address, sno, score) {
+      Person.call(this, name, age, height, address)
+      this.sno = sno
+      this.score = score
+    }
+    
+    inherit(Student, Person)
+
+    Student.prototype.studying = function() {
+      console.log("studying");
+    }
+
+    let stu1 = new Student("coder", 18, 188, "中国", 111, 100)
+  </script>
+</body>
+</html>

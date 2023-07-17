@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    <script>
+      function foo(name, age, height, address) {
+          console.log(this, name, age, address);
+      }
+
+      // 实现bind函数
+      Function.prototype.diyBind = function (thisArg, ...otherArgs) {
+          // 判断对象
+          thisArg = (thisArg === undefined || thisArg === null) ? window : Object(thisArg)
+          Object.defineProperty(thisArg, "fn", {
+              enumerable: false,
+              configurable: true,
+              writable: false,
+              value: this
+          })
+
+          // 用箭头函数（由于foo.diyBind()，所以此时diyBind的this为foo，而箭头函数没有自己的this，其会去上层作用域里找）
+          // 那么就可以直接在返回的函数中通过this使用调用diyBind的对象
+          return (...newArgs) => {
+              // let allArgs = otherArgs.concat(newArgs)
+              let allArgs = [...otherArgs, ...newArgs]
+              console.log(allArgs);
+              thisArg.fn(...allArgs) // 隐式绑定
+          }
+      }
+
+      let newFoo = foo.diyBind({ name: "coder" }, "CODER", 18)
+      newFoo(1.88, "中国")
+    </script>
+  </body>
+</html>

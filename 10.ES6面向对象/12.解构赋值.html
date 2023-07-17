@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      let names = ["n1", "n2", , "n3", "n4"]; // 第三个元素是undefined
+      // let name1 = names[0]
+      // let name2 = names[1]
+      // let name3 = names[2]
+      // 数组的解构
+      //   let [name1, name2, name3] = names; // 依次赋值,顺序严格
+      //   let [name1, , name3] = names; // 想要跳过n2赋值可以这样
+
+      // 解构出数组
+      //   let [name1, name2, ...lastName] = names;
+      //   console.log(name1, name2, lastName);
+
+      // 解构的默认值（如果对应数组里没有值的话（undefined））
+      let [name1, name2, name3 = "defaultName"] = names;
+      console.log(name3); // defaultName
+
+      let obj = {
+        name: "coder",
+        age: 18,
+        height: 180,
+      };
+      //   let name = obj.name
+      //   let age = obj.age
+      //   let height = obj.height
+      // 对象的解构
+      // 跟数组不一样，普通对象的解构会根据{}中的变量去对象中找对应的key，然后用其value进行赋值
+      //   let { name, age, height } = obj;
+
+      // 在赋值时，可以对变量进行重命名，在变量名后面:新的变量名，其会根据旧的变量名先去对象中找对象的key
+      let { name: coderName, age: coderAge, coderHeight } = obj;
+      // console.log(name); // 会报错
+      console.log(coderName); // coder
+
+      // 默认值，没有对应的key或者key对应的value的时候
+      //   let { address: coderAddress = "默认地址" } = obj;
+      //   console.log(coderAddress); // "默认地址"
+      let { address = "默认地址" } = obj;
+      console.log(address);
+
+      // 对象的剩余内容
+      let { name, ...lastProperty } = obj;
+      console.log(lastProperty);
+
+      // 对象解构的应用
+      function getposition({ x, y }) {
+        console.log(x, y);
+      }
+      getposition({ x: 10, y: 20 });
+
+      /* 
+        结构在开发中的使用是非常多的
+          比如在开发中拿到一个变量时，自动对其进行解构
+          比如对函数的参数进行解构
+       */
+    </script>
+  </body>
+</html>

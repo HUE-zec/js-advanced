@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // ES5中定义类，通过构造函数
+      // function Person(name, age) {
+      //   this.name = name;
+      //   this.age = age;
+      // }
+      // Person.prototype.running = function () {
+      //   console.log("running~");
+      // };
+
+      // ES6中定义类
+      // class Person {} 或者 let person = class {}，声明式和表达式，声明式更常用
+      class Person {
+        // 当我们通过类创建对象，其会自动执行constructor中的代码
+        // 每个类只能有一个constructor
+        constructor(name, age) {
+          this.name = name;
+          this.age = age;
+        }
+
+        // 定义实例方法
+        // es6语法糖，相当于running = function() {}
+        running() {
+            console.log(this.name + " running");
+        }
+      }
+
+      p1 = new Person("coder", 18)
+      p1.running()
+
+      // 探究ES6中class的本质，实际上和ES5中构造函数是一样的，ES6中的class其实就是es5中构造函数对应的语法糖
+      console.log(p1.__proto__ == Person.prototype); // true
+      console.log(Person.prototype.constructor); // 指向一个class，其内部结构和构造函数是没有区别的
+      console.log(typeof Person); // function
+
+      // 不同点，构造函数可以作为一个普通函数调用，而class不行，class内部有checkCall()函数会检查class如何被调用，其不允许被当成普通函数调用
+
+    </script>
+  </body>
+</html>

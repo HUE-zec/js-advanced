@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+
+    // localStorage.setItem("token", "frontend-coder")
+    // console.log(localStorage.getItem("token"));
+    // 这两个地方的"token"，我们可以将其抽取到一个常量中，增加复用性，且更好维护，而且变量名不小心写错的话，程序会直接报错，便于发现代码的错误
+    const access_token = "token"
+    localStorage.setItem(access_token, "frontend-coder") // 如果key已存在，则更新其value
+    console.log(localStorage.getItem(access_token));
+
+    console.log(localStorage.length);
+
+    // 可以通过localStorage.key()通过索引获取第n个key
+    console.log(localStorage.key(0));
+    console.log(localStorage.key(1));
+    console.log(localStorage.key(2));
+    console.log(localStorage.getItem(localStorage.key(0)));
+
+    // Storage.removeItem()，接收一个key，并将该key从存储中移除
+    // Storage.clear()，该方法的作用是清空存储中的所有key
+    
+  </script>
+</body>
+
+</html>

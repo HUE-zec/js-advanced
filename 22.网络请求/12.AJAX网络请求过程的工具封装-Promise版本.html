@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    function diyAjax ({
+      url,
+      method = "get", // 等于method: 
+      data,
+      timeout = 10000,
+      headers = {}, // 比如说会把token放这里面
+    } = {},
+    ) { // 解构
+      return new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest()
+
+        xhr.onload = function () {
+          if (xhr.status >= 200 && xhr.status < 300) {
+            resolve(xhr.response)
+          } else {
+            reject({ status: xhr.status, message: xhr.statusText })
+          }
+        }
+
+        xhr.responseType = "json"
+
+        // 对于get请求，只需要将数据拼接到查询字符串当中的
+        if (method.toLowerCase() === "get") {
+          const queryStrings = []
+          for (const key in data) {
+            queryStrings.push(`${key}=${data[key]}`)
+          }
+          url = url + '?' + queryStrings.join("&")
+
+          xhr.open(method, url)
+          xhr.send()
+        } else {
+          xhr.open(method, url)
+          xhr.setRequestHeader("Content-type", "application/json")
+          xhr.send(JSON.stringify(data))
+        }
+
+
+        xhr.open(method, url)
+        xhr.send()
+
+      })
+    }
+
+    diyAjax({
+      url: "http:132.207.32.32:8000/home/multidata",
+      data: {
+        username: "coder",
+        password: "123456"
+      }
+    }).then(res => {
+      console.log(res);
+    }).catch(err => {
+      console.log(err);
+    })
+  </script>
+</body>
+
+</html>

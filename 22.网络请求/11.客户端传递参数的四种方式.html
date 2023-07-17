@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <!-- <script>
+    /*
+      在开发中我们使用最多的是get/post请求，在发送请求的过程中，我们也可以向服务器传递数据（取决于服务器需不需要我们传递数据）
+        常见的传递给服务器数据的方式有如下几种：
+          GET请求的query参数
+          POST请求x-www-form-urlencoded格式
+          POST请求FormData格式
+          POST请求JSON格式
+    */
+
+    const xhr = new XMLHttpRequest()
+    xhr.onload = function () {
+      console.log(xhr.response);
+    }
+    xhr.responseType = 'json'
+    // 服务器内部已经写好了要如何处理前端通过网络请求发送给服务器的数据（是服务器内部实现了接收到参数后要进行哪些处理）
+    // ?后面为查询字符串
+    // 请求方式一
+    xhr.open("get", "http://123.207.32.32:1888/02_param/get?name=coder&age=18&address=中国")
+    xhr.send()
+  </script> -->
+
+  <!-- <script>
+    const xhr = new XMLHttpRequest()
+    xhr.onload = function () {
+      console.log(xhr.response);
+    }
+    xhr.responseType = 'json'
+
+    // 请求方式二，x-www-form-urlencoded格式，通过.send()发送
+    xhr.open("post", "http://123.207.32.32:1888/02_param/posturl")
+    /*
+      因为向服务器发送请求的时候，会将数据发送到PayLoad里（NetWork中可以看到），
+        但是在PayLoad中是如何编码的，必须要告诉服务器，
+          不然服务器是不知道怎么解析的
+    */
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
+    xhr.send("name=coder&age=18&address=中国")
+  </script> -->
+
+  <form class="info">
+    <input type="text" name="username">
+    <input type="password" name="password">
+  </form>
+  <button class="send">发送请求</button>
+  <script>
+    const formEl = document.querySelector(".info")
+    const sendBtn = document.querySelector(".send")
+    sendBtn.onclick = function () {
+      const xhr = new XMLHttpRequest()
+      xhr.onload = function () {
+        console.log(xhr.response);
+      }
+      xhr.responseType = 'json'
+      xhr.open("post", "http://123.207.32.32:1888/02_param/posturl")
+      // 想将表单中用户输入的数据传递给服务器
+      // 先得到对应表单的FormData对象
+      const formData = new FormData(formEl)
+      // 将对应的FormData对象发送给服务器，这里不用setRequestHeader方法设置，因为默认情况下Content-type是一个FormData的形式 
+      xhr.send(formData)
+    }
+  </script>
+
+  <script>
+    const xhr = new XMLHttpRequest()
+    xhr.onload = function () {
+      console.log(xhr.response);
+    }
+    xhr.responseType = 'json'
+    xhr.open("post", "http://123.207.32.32:1888/02_param/postjson")
+    // 方式四：xhr.send()中发送JSON形式的字符串（通过JSON.stringify()转换后）
+    xhr.setRequestHeader("Content-type", "application/json")
+    xhr.send(JSON.stringify({ name: "coder", age: 18, height: 1.88 }))
+  </script>
+</body>
+
+</html>

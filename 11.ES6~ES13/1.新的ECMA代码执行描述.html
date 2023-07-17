@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /*
+            之前我们学习了一些概念：
+                执行上下文栈：Execution Context Stack，用于执行上下文的结构
+                执行上下文：Execution Context，代码在执行之前会创建对应的执行上下文
+                变量对象：Variable Object，上下文关联的vo对象，用于记录函数和变量声明
+                全局对象：Global Object，全局执行上下文关联的对象
+                激活对象：Activation Object，函数执行上下文关联的对象
+                作用域链：Scope Chain，作用域链，用于关联指向上下文的查找
+
+            在新的ECMA代码执行描述中，对于代码的执行流程改为了一些另外的词汇
+                基本思路是相同的，执行上下文栈和执行上下文也是相同的
+
+                词法环境：是一种规范，用于在此法嵌套中定义关联的变量、函数等标识符
+                    一个词法环境是由环境记录（Environment Record）和一个外部词法环境（Outer Lexical Environment）组成
+                    一个词法环境经常用于关联一个函数声明，代码块语句，try-catch语句，当它们的代码被执行时，词法环境就被创建出来了
+                也就是在ES5之后，执行一个代码通常会关联对应的词法环境
+                    那么执行上下文会关联哪些词法环境？
+                        一般一个执行上下文会关联两个词法环境（一个lexical environment词法环境，一个variable envirnoment变量环境，不过这个变量环境也是词法环境，并且它们的初始值都是一样的）
+                            如果是用const和let创建出来的变量一般会用词法环境处理（用词法环境处理不会进行作用域的提升），如果在之前访问，会产生暂时性死区（这个名词是社区里的人取的，官方文档中并没有提到这个词，从代码块开始一直到给该变量赋值前），这个词法环境下的变量在真正赋值前是无法使用的
+                                也就是说lexical environment和variable envirnoment用于处理不同种类定义的变量
+                                    lexical environment用于处理let和const声明的标识符，在词法环境被创建的时候，对应变量已经被创建出来了，但是在被赋值之前无法访问
+                                    variable environment用于处理var和function声明的标识符，词法环境被创建的时候，对应变量会被创建并且立即初始化为undefined，所以可以直接访问
+
+                    环境记录：在这个规范中主要有两种环境记录值：声明式环境记录和对象式环境记录
+                        声明式环境记录：用于定义ECMA语言语法元素的效果，如函数声明，变量声明和直接将标识符绑定与ECMA语言值关联起来的catch子句
+                        对象式环境记录：用于定义ECMA元素的效果，例如WithStatement，它将标识符绑定与某些对象的属性关联起来，例如为什么with(obj) {}，然后就可以在代码块中使用obj的属性
+
+                        环境记录也会记录变量的状态，比如可以记录let声明的标识符的状态，如果其状态是未初始化的，对其进行访问会报错
+        */
+    </script>
+</body>
+</html>

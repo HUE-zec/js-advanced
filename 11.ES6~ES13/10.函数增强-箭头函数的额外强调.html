@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 箭头函数是没有显示原型prototype的，因此不能new来创建对象（没有prototype的函数不能是构造函数）
+        let foo = (a) => {
+            console.log(a);
+        }
+        console.log(foo.prototype); // undefined
+
+        // 箭头函数也不绑定this/arguments/super参数
+    </script>
+</body>
+</html>

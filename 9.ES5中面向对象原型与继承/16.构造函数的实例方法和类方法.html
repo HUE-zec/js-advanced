@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function Person(name, age) {
+        this.name = name
+        this.age = age
+      }
+      Person.prototype.running = function() { // 这样添加方法避免空间浪费
+        console.log(this.name + " running~");
+      }
+      let p1 = new Person("coder", 18)
+      let p2 = new Person("CODER", 19)
+
+      // 问题：Person类能直接调用running方法吗？
+      // 会报错，首先Person没有这个方法，其次其原型上也找不到（会去其隐式原型上找）
+      // Person.__proto__是Function.prototype找不到running方法，相当于调用undefined
+      // Person.running()
+
+      // Person的实例可以调用running，因为p1.__proto__是Person.prototype
+      // 添加给类的显式原型的方法通常称为实例方法
+      p1.running()
+      // 下面这种调用方法没有意义，因为我们调用的实例方法中通常是要用到实例（通过this拿到）的某个属性
+      // 如下调用this绑定为构造函数原型对象，去找某个属性往往只能拿到undefined
+      Person.prototype.running()
+
+      // 添加给类的方法通常称为类方法
+      Person.foo = function() {
+        console.log("function of Person");
+      }
+      Person.foo()
+    </script>
+  </body>
+</html>

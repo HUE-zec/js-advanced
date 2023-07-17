@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    let obj = {
+  name: "coder",
+  age: 18
+}
+
+// 每一个对象都有自己的原型属性（这个属性指向另一个对象）（在浏览器中会显示为[[Prototype]]:Object，不过并不存在一个真实的属性叫这个）
+// 可以通过.__proto__来获取（非标准方法，且有的浏览器可能不支持）
+console.log(obj.__proto__);
+// 标准方法：Object.getPrototypeOf()
+console.log(Object.getPrototypeOf(obj));
+
+/* 这个原型有什么用呢？
+   当我们通过[[get]]（比如我们获取obj.name的过程就可以叫做一个get的过程）方式来获取一个对象的某个属性值时
+    其会优先在自身当中查找
+      如果没有，那么就会去它的原型对象中查找
+*/
+
+  </script>
+</body>
+</html>

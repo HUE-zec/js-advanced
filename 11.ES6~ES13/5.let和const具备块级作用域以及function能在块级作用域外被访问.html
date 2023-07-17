@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /*
+            ES6新增了块级作用域，并且通过let/const/function/class声明的标识符都是具备块级作用域的限制的
+        */
+
+
+        // foo() // 不过在这里访问会报错
+       
+       {
+           let age = 18
+           const height = 1.88
+           class Person {}
+           function foo() {
+               console.log("foo~");
+            }
+        }
+        
+        foo() // 但是为什么这里可以访问到foo呢？foo不是在独立的块级作用域中吗？
+        // 为了兼容一些原来没有块级作用域写出来的代码，浏览器的引擎进行了优化，允许function在块级作用域之外被访问
+    </script>
+</body>
+</html>

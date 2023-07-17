@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /* 
+            class为我们提供了super关键字
+                super.method()用来调用一个父类方法
+                执行super()来调用父类的构造器
+                    只能在子类的constructor中，且必须写在this赋值之前
+                        即在子类的构造函数中使用this或返回默认对象之前，必须先通过super调用父类的构造函数
+                super的使用位置有三个：子类的构造函数，实例方法，静态方法
+        */
+
+        class Person {
+            running() {
+                console.log("running");
+            }
+
+            static sleep() {
+              console.log("sleep~");
+            }
+        }
+
+        class Student extends Person{
+           // 子类可以重写父类的方法
+           running() {
+            console.log("Student running");
+            // 可以在子类中通过super调用父类的方法
+            super.running()
+           } 
+
+           // 类方法也可以重写
+           static sleep() {
+            console.log("student sleep");
+           }
+        }
+
+        let s1 = new Student()
+        s1.running()
+
+        Person.sleep()
+        Student.sleep()
+    </script>
+</body>
+</html>

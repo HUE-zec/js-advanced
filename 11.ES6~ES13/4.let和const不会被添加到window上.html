@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      var a = 10;
+      console.log(window.a);
+
+      /* 
+            全局环境记录比较特殊，其实是由对象式环境记录和声明式环境记录组成的（一般来说一个环境记录只有一种）
+            对象式环境记录绑定的是全局对象
+                函数声明，生成器生命，异步函数声明，异步生成器声明和var声明的变量都会被绑定到对象式环境记录中
+            而其余的（比如let/const声明的变量）会被绑定到声明式环境记录里
+        */
+    </script>
+  </body>
+</html>

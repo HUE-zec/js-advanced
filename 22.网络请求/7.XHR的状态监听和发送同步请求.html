@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    const xhr = new XMLHttpRequest()
+
+    // 监听四种状态
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState !== XMLHttpRequest.DONE) return; // XMLHttpRequest.DONE就是一个4
+
+      console.log("statechange", xhr.readyState);
+      // statechange 1
+      // statechange 2
+      // statechange 3
+      // statechange 4
+    }
+    /*
+      事实上，我们在一次网络请求中，看到状态发生了很多次变化，这是因为对于一次请求来说，包括如下的状态
+       值  |  状态             描述
+       0   | UNSENT           代理被创建，但尚未采用open()方法
+       1   | OPENED           open()方法已经被调用  
+       2   | HEADERS_RECEIVED send()方法已经被调用，并且头部和状态已经可以获取了
+       3   | LOADING          下载中，responseText属性已经包含部分数据
+       4   | DONE             下载操作已经完成
+
+       注意：这个状态并不是HTTP的响应状态，而是记录XMLHttpRequest对象状态的变化
+       HTTP响应状态是通过status获取的
+    */
+
+    // 第三个参数设置async为 true/false，实际开发中肯定要使用异步请求
+    xhr.open("get", "http://123.207.32.32:8000/home/multidata", false)
+    xhr.send()
+
+    /*
+      xhr.send()肯定是需要一定时间的，如果xhr.send()下面还有代码是没有必要等着xhr.send()执行完再执行的
+        此处的xhr.send()并不会阻塞后续的代码，这样就是一种异步执行代码的方法，也就是说这里请求网络的方式是异步的
+          那可以发送同步请求吗？配置xhr.open()的第三个参数即可
+    */
+
+    // 设置xhr.open(..., ..., false)为false后，会等待xhr.send()成功获取数据之后才会执行这行代码
+    console.log(xhr.response); // open的第三个参数设置为true的时候，这里是拿不到东西的（异步请求，执行这行代码的时候数据还没请求过来）
+  </script>
+</body>
+</html>

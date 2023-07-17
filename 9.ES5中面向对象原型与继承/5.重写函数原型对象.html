@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    function Person() {}
+
+    console.log(Object.getOwnPropertyDescriptors(Person.prototype));
+
+    // 在原有对原型对象中添加新的属性
+    Person.prototype.message = "hello"
+    Person.prototype.info = { name: "coder", age: 18 }
+    Person.prototype.foo = function () { }
+
+    console.log(Object.keys(Person.prototype));
+
+    // 直接赋值一个新的原型对象
+    Person.prototype = {
+      message: "hello",
+      info: { name: "coder", age: 18 },
+      foo: function () { },
+      constructor:Person
+    }
+    console.log(Object.keys(Person.prototype));
+
+    // 我们可以注意到函数原型对象中默认的constructor属性默认是不可枚举的，而我们重写后添加的constructor默认是可枚举的
+
+    Object.defineProperty(Person.prototype, "constructor", {
+      value: Person,
+      // 当我们通过属性描述符定义某个属性时，其configurable, enumerable, wirtable都默认是false
+      // 我们可以这样添加constructor使其默认不可枚举，不过记得要把上面constructor:Person注释掉，不然configurable,enmuerable,wirtable都是true
+
+      // 函数原型的configurable和writable默认是true，enumerable是false  
+      configurable:true,
+      writable: true
+    })
+
+    console.log(Object.keys(Person.prototype));
+
+    console.log(Object.getOwnPropertyDescriptors(Person.prototype));
+
+  </script>
+</body>
+
+</html>

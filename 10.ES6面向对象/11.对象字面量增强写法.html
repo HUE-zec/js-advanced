@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      let name = "coder";
+      let age = 18;
+      let key = "address";
+
+      let obj = {
+        // name: name,
+        // age: age,
+        // 1.属性增强：当对象属性的key和value的变量名相同时，可以省略
+        name,
+        age,
+
+        // 2.方法的增强
+        // running: function {}
+        running() {},
+
+        // 3.计算属性名，可以通过[]中写变量，实现对象属性的key为变量对应的string
+        // address: "中国"
+        [key]: "中国",
+      };
+
+      // 导出一个对象的时候也可以用
+      module.export = {
+        // name: name,
+        // age: age
+        name,
+        age,
+      };
+
+      // 比如一个函数想返回一个对象的时候（因为js是返回多个值的，只能通过返回一个对象来实现）
+      function foo() {
+        return {
+          name,
+          age,
+        };
+      }
+    </script>
+  </body>
+</html>

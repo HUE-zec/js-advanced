@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    function Person(name, age, height, address) {
+      this.name = name
+      this.age = age
+      this.height = height
+      this.address = address
+    }
+
+    Person.prototype.running = function() {
+      console.log("running");
+    }
+    Person.prototype.eating = function() {
+      console.log("eating");
+    }
+
+    
+    // 定义学生类
+    function Student(name, age, sno, score) {
+      // 如果下面这两行不写，name和age默认继承的是p的，但是如果写了的话，对于实现继承来说又是多余的
+      // this.name = name
+      // this.age = age
+      this.sno = sno
+      this.score = score
+    }
+    
+    // 方式二：创建一个父类的实例对象，用这个实例对象来作为子类的原型对象
+    let p = new Person("why", 18)
+    Student.prototype = p
+
+    Student.prototype.studying = function() {
+      console.log("studying");
+    }
+
+    let stu1 = new Student("coder", 18, 111, 100)
+    
+    console.log(stu1);
+    console.log(stu1.name);
+    console.log(stu1.age);
+    stu1.running()
+    stu1.studying()
+
+    /*
+      目前这个方案还是有很大的弊端的
+        1.我们通过直接打印对象是看不到这个属性的
+        2.这个属性会被多个对象共享，如果这个对象是一个引用类型，那么就会造成问题
+        3.无法对每个对象进行定制化（需要加两行代码），但是加了的话又会和Person中的代码重复
+    */
+  </script>
+</body>
+</html>

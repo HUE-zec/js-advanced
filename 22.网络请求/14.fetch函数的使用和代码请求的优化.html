@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    /*
+      fetch可以看作是早期XMLHttpRequest的替代方案，它提供了一种更加现代化的处理方案
+        比如返回值是Promise，提供了一种更加优雅的处理结果
+          在请求发送成功的时候调用resolve回调then
+          在请求发送成功的时候调用reject回调catch
+        比如不像XMLHttpRequest那样，所有操作都在一个对象上
+
+        fetch函数的使用
+          fetch(input[, init])
+            input:定义要获取的资源地址，可以是一个URL字符串，也可以是一个Request对象（实验性特性）类型
+            init:其他初始化参数：
+              method:请求使用的方法，如GET/POST
+              headers:请求的头信息
+              body:请求的body信息
+
+          Fetch的数据响应主要分为两个阶段：
+            1.当服务器返回了响应（response)：
+              fetch返回的promise就是用内建的Response class对象来对响应头进行解析
+              在这个阶段，我们可以通过检查响应头，来检查HTTP状态以确定请求成功
+              如果fetch无法建立一个HTTP请求，例如网络问题，亦或是请求的网址不存在，那么Promise就会reject
+              我们可以在response中看到HTTP状态
+                status: HTTP状态码，例如200
+                ok:布尔值如果HTTP状态码为200~209，则为true
+            2.阶段二，为了获取response body，我们需要使用一个方法的其他调用
+              response.text() 读取response，并以文本形式返回response
+              response.json() 将response解析为json
+    */
+
+    // fetch("http://123.207.32.32:8000/home/multidata").then(res => {
+    //   const response = res
+
+    //   // 获取具体结果，即为了获取response body
+    //   // json格式的数据要解析就要调用json方法（这个json方法，text格式就要调用text方法
+    //   response.then(res => {
+    //     console.log(res);
+    //   })
+    // }).catch(err => {
+    //   console.log(err);
+    // })
+
+    // 优化方式一：
+    // fetch("http://123.207.32.32:8000/home/multidata").then(res => {
+    //   const response = res
+
+    //   // 获取具体结果
+    //   // 要获取json格式就要调用json方法（text格式就要调用text方法）
+    //   return response.json()
+    // }).then(res => {
+    //   console.log(res);
+    // }).catch(err => {
+    //   console.log(err);
+    // })
+
+    // 优化方式三：
+    // async function getData () {
+    //   const response = await fetch("http://123.207.32.32:8000/home/multidata")
+    //   const res = await response.json()
+    //   console.log(res); // 一个对象
+    // }
+    // getData()
+
+    // post请求
+    // async function getData () {
+    //   const response = await fetch(
+    //     "http://123.207.32.32:1888/02_param/postjson", // 这个接口可以处理json
+    //     {
+    //       method: "post",
+    //       headers: {
+    //         "Content-type": "application/json"
+    //       },
+    //       body: JSON.stringify({
+    //         name: "coder",
+    //         age: 18
+    //       })
+    //     }
+    //   )
+    //   const res = await response.json()
+    //   console.log(res);
+    // }
+    // getData()
+
+    async function getData () {
+      const formData = new FormData()
+      formData.append("name", "coder")
+      formData.append("age", 18)
+      const response = await fetch(
+        "http://123.207.32.32:1888/02_param/postform",
+        {
+          method: "post",
+          // 默认就是接收FormData实例类型的数据，因此不用设置"Content-type": "application/type"
+          body: formData
+        }
+      )
+      console.log(response.ok, response.status, response.statusText) // true 200 'OK'
+
+      const res = await response.json()
+      console.log(res);
+    }
+    getData()
+
+  </script>
+</body>
+
+</html>

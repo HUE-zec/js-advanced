@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script src="./inherit_utils.js"></script>
+    <script>
+      let obj = {
+        name: 'coder',
+        age: 18,
+      }
+      let obj2 = createObject(obj)
+      console.log(obj2)
+      obj2.address = '中国'
+
+      // hasOwnProperty 属性是否属于自己
+      console.log(obj2.hasOwnProperty('address')) // true
+      console.log(obj2.hasOwnProperty('name')) // false
+
+      // in/for in  某个属性是否在某个对象或者对象的原型上，for in是会遍历原型上的内容的（不用担心会把Object原型上的遍历下来，因为那些属性都是不可枚举的）
+
+      // instanceof  用于检测构造函数的prototype属性，是否出现在某个对象实例的原型链上
+      // 语法 对象 instanceof 构造函数
+      // 判断依据：其会查找实例对象原型链上是否有对象的construcotr指向该构造函数
+      function Person() {}
+      function Student() {}
+      inherit(Student, Person)
+      let stu = new Student()
+      console.log(stu instanceof Student) // true
+      console.log(stu instanceof Person) // true
+      console.log(stu instanceof Object) // true
+      console.log(stu instanceof Array) // false
+
+      // 用于检测某个对象是否出现在某个对象的原型链上（用得不多）
+      console.log(Student.prototype.isPrototypeOf(stu)); // true
+    </script>
+  </body>
+</html>

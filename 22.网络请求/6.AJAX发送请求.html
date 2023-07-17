@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    /*
+    AJAX可以使用JSON,XML,HTML,TEXT文本等格式发送和接收数据
+    如何完成一个基本的AJAX请求？
+      1.创建网络请求的AJAX对象（使用XMLHttpRequest类）
+      2.监听XMLHttpRequest对象状态的变化，或者监听onload事件（请求完成时触发）
+      3.配置网络请求（通过open方法）
+      4.发送send网络请求
+    */
+
+    // 创建XMLHttpRequest对象
+    const xhr = new XMLHttpRequest()
+    // 监听对象状态变化（宏任务）
+    xhr.onreadystatechange = function () {
+      // console.log(xhr.response);
+      if (xhr.readyState !== XMLHttpRequest.DONE) return;
+
+      const resJSON = JSON.parse(xhr.response)
+      console.log(resJSON);
+    }
+    // 配置请求
+    xhr.open("get", "http://123.207.32.32:8000/home/multidata")
+    // 发送请求
+    xhr.send()
+
+  </script>
+</body>
+
+</html>
